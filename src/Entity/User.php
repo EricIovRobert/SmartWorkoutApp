@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -25,8 +26,10 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $Birthday = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Gender = null;
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $Gender = null;
+
+
 
     public function getId(): ?int
     {
