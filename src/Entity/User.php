@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,17 @@ class User
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $Gender = null;
+
+    /**
+     * @var Collection<int, Workout>
+     */
+    #[ORM\OneToMany(targetEntity: Workout::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $workouts;
+
+    public function __construct()
+    {
+        $this->workouts = new ArrayCollection();
+    }
 
 
 
@@ -92,6 +105,36 @@ class User
     public function setGender(string $Gender): static
     {
         $this->Gender = $Gender;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Workout>
+     */
+    public function getWorkouts(): Collection
+    {
+        return $this->workouts;
+    }
+
+    public function addWorkout(Workout $workout): static
+    {
+        if (!$this->workouts->contains($workout)) {
+            $this->workouts->add($workout);
+            $workout->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkout(Workout $workout): static
+    {
+        if ($this->workouts->removeElement($workout)) {
+            // set the owning side to null (unless already changed)
+            if ($workout->getUser() === $this) {
+                $workout->setUser(null);
+            }
+        }
 
         return $this;
     }

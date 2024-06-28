@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\WorkoutRepository;
+use App\Repository\ExerciseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: WorkoutRepository::class)]
-class Workout
+#[ORM\Entity(repositoryClass: ExerciseRepository::class)]
+class Exercise
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,29 +18,23 @@ class Workout
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $Date = null;
+    #[ORM\Column(length: 2048)]
+    private ?string $link_video = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workouts')]
+    #[ORM\ManyToOne(inversedBy: 'exercises')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tip $tip = null;
-
-    #[ORM\ManyToOne(inversedBy: 'workouts')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     /**
      * @var Collection<int, ExerciseLog>
      */
-    #[ORM\OneToMany(targetEntity: ExerciseLog::class, mappedBy: 'workout', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ExerciseLog::class, mappedBy: 'exercise', orphanRemoval: true)]
     private Collection $exerciseLogs;
 
     public function __construct()
     {
         $this->exerciseLogs = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -60,14 +53,14 @@ class Workout
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getLinkVideo(): ?string
     {
-        return $this->Date;
+        return $this->link_video;
     }
 
-    public function setDate(\DateTimeInterface $Date): static
+    public function setLinkVideo(string $link_video): static
     {
-        $this->Date = $Date;
+        $this->link_video = $link_video;
 
         return $this;
     }
@@ -84,18 +77,6 @@ class Workout
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, ExerciseLog>
      */
@@ -108,7 +89,7 @@ class Workout
     {
         if (!$this->exerciseLogs->contains($exerciseLog)) {
             $this->exerciseLogs->add($exerciseLog);
-            $exerciseLog->setWorkout($this);
+            $exerciseLog->setExercise($this);
         }
 
         return $this;
@@ -118,8 +99,8 @@ class Workout
     {
         if ($this->exerciseLogs->removeElement($exerciseLog)) {
             // set the owning side to null (unless already changed)
-            if ($exerciseLog->getWorkout() === $this) {
-                $exerciseLog->setWorkout(null);
+            if ($exerciseLog->getExercise() === $this) {
+                $exerciseLog->setExercise(null);
             }
         }
 

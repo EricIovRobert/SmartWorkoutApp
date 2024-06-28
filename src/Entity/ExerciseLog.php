@@ -14,47 +14,23 @@ class ExerciseLog
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Workout $workout_id = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Exercitii $exercise_id = null;
-
     #[ORM\Column]
     private ?int $nr_reps = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $Durata = null;
+    private ?\DateTimeInterface $duration = null;
+
+    #[ORM\ManyToOne(inversedBy: 'exerciseLogs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Workout $workout = null;
+
+    #[ORM\ManyToOne(inversedBy: 'exerciseLogs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Exercise $exercise = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getWorkoutId(): ?Workout
-    {
-        return $this->workout_id;
-    }
-
-    public function setWorkoutId(?Workout $workout_id): static
-    {
-        $this->workout_id = $workout_id;
-
-        return $this;
-    }
-
-    public function getExerciseId(): ?Exercitii
-    {
-        return $this->exercise_id;
-    }
-
-    public function setExerciseId(?Exercitii $exercise_id): static
-    {
-        $this->exercise_id = $exercise_id;
-
-        return $this;
     }
 
     public function getNrReps(): ?int
@@ -69,14 +45,38 @@ class ExerciseLog
         return $this;
     }
 
-    public function getDurata(): ?\DateTimeInterface
+    public function getDuration(): ?\DateTimeInterface
     {
-        return $this->Durata;
+        return $this->duration;
     }
 
-    public function setDurata(\DateTimeInterface $Durata): static
+    public function setDuration(\DateTimeInterface $duration): static
     {
-        $this->Durata = $Durata;
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getWorkout(): ?Workout
+    {
+        return $this->workout;
+    }
+
+    public function setWorkout(?Workout $workout): static
+    {
+        $this->workout = $workout;
+
+        return $this;
+    }
+
+    public function getExercise(): ?Exercise
+    {
+        return $this->exercise;
+    }
+
+    public function setExercise(?Exercise $exercise): static
+    {
+        $this->exercise = $exercise;
 
         return $this;
     }
