@@ -4,7 +4,7 @@
     <ul>
         {% for exercise in exercises %}
             <li>
-                <a href="{{ path('individualExercise', { 'id': exercise.id }) }}"> {{ exercise.name }}</a> </li>
+                <a href="/exercise/{{ exercise.id }}"> {{ exercise.name }}</a> </li>
         {% endfor %}
     </ul>
 {% else %}
