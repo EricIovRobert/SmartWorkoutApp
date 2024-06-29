@@ -1,0 +1,11 @@
+<h1>Exercise Info</h1>
+
+{% if exercise is not empty %}
+    <ul>
+        <li>
+            <a href="{{ exercise.linkVideo }}">Watch Video</a>
+        </li>
+    </ul>
+{% else %}
+    <p>No exercises found.</p>
+{% endif %}

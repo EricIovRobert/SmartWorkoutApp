@@ -1,0 +1,12 @@
+<h1>Exercise List</h1>
+
+{% if exercises is not empty %}
+    <ul>
+        {% for exercise in exercises %}
+            <li>
+                <a href="{{ path('individualExercise', { 'id': exercise.id }) }}"> {{ exercise.name }}</a> </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No exercises found.</p>
+{% endif %}

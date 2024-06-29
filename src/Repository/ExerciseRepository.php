@@ -17,7 +17,7 @@ class ExerciseRepository extends ServiceEntityRepository
     }
 
     //    /**
-    //     * @return Exercise[] Returns an array of Exercise objects
+    //     * @return ExerciseList[] Returns an array of ExerciseList objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ExerciseRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Exercise
+    //    public function findOneBySomeField($value): ?ExerciseList
     //    {
     //        return $this->createQueryBuilder('e')
     //            ->andWhere('e.exampleField = :val')
