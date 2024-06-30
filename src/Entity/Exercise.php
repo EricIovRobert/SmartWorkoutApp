@@ -31,6 +31,9 @@ class Exercise
     #[ORM\OneToMany(targetEntity: ExerciseLog::class, mappedBy: 'exercise', orphanRemoval: true)]
     private Collection $exerciseLogs;
 
+    #[ORM\Column(length: 500)]
+    private ?string $Description = null;
+
     public function __construct()
     {
         $this->exerciseLogs = new ArrayCollection();
@@ -103,6 +106,18 @@ class Exercise
                 $exerciseLog->setExercise(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->Description;
+    }
+
+    public function setDescription(string $Description): static
+    {
+        $this->Description = $Description;
 
         return $this;
     }

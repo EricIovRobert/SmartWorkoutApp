@@ -8,7 +8,7 @@ use App\Repository\ExerciseRepository;
 class ExerciseList extends AbstractController
 {
     #[Route('/exercises',name: 'exercise_list')]
-    public function view_objects(ExerciseRepository $exerciseRepository): Response
+    public function show_exercise_list(ExerciseRepository $exerciseRepository): Response
     {
         $exercises = $exerciseRepository->findAll();
         return $this->render('Exercises\exercise_list.html.twig', ['exercises' => $exercises]);

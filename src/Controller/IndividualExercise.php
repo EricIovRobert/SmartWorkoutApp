@@ -9,10 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\ExerciseRepository;
 use Symfony\Config\Doctrine\Orm\EntityManagerConfig;
 
+
+
 class IndividualExercise extends AbstractController
 {
     #[Route('/exercise/{id}', name: 'individualExercise')]
-    public function show(EntityManagerInterface $entityManager, int $id): Response
+
+    public function show_exercise(EntityManagerInterface $entityManager, int $id): Response
     {
         $exercise = $entityManager->getRepository(Exercise::class)->find($id);
 
