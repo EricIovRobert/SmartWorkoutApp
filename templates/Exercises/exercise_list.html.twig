@@ -1,13 +1,39 @@
-<h1>Exercise List</h1>
+{% extends 'base.html.twig' %}
 
-{% if exercises is not empty %}
-    <ul>
-        {% for exercise in exercises %}
-            <li>
-                <a href="/exercise/{{ exercise.id }}"> {{ exercise.name }}</a> </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No exercises found.</p>
-{% endif %}
-<button onclick="history.back()">Back</button>
+{% block body %}
+    <title>{% block title %}Exercise List{% endblock %}</title>
+    <div class="container my-5 text-white">
+        <h1 class="text-center">Exercise List</h1>
+        <br>
+        {% if exercises is not empty %}
+            <div class="row" align="center">
+                {% for exercise in exercises %}
+                    <div class="col-md-4 my-3">
+                        <div class="card h-100 bg-light text-dark rounded-card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ exercise.name }}</h5>
+                                <a href="/exercise/{{ exercise.id }}" class="btn btn-orange mt-3">View Exercise</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">No exercises found.</p>
+        {% endif %}
+        <div class="text-center mt-5">
+            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+        </div>
+    </div>
+
+    <style>
+        .rounded-card {
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        .rounded-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+{% endblock %}

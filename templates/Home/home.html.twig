@@ -1,11 +1,16 @@
+{% extends 'base.html.twig' %}
 
+{% block body %}
+    <title>{% block title %}Home{% endblock %}</title>
+    <div class="text-center my-5 text-white ">
 
-<h1 align="center">Welcome to SmartWorkout!</h1>
-<br>
-
-<h2>Here is a menu to navigate through the app</h2>
-<ul>
-    <li>
-     <a href="/exercises">Exercises</a>
-    </li>
-</ul>
+        <h1>Welcome to SmartWorkout!</h1>
+        <br>
+        <h2>Here is a menu to navigate through the app</h2>
+        <ul class="list-unstyled">
+            <li class="my-3">
+                <a href="/exercises" class="btn btn-orange">Exercises</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

@@ -1,21 +1,35 @@
-<h1>{{ exercise.name }}</h1>
+{% extends 'base.html.twig' %}
 
-{% if exercise is not empty %}
-    <ul>
-        <li>
-            <p>
-                Category: {{ exercise.tip.nume}}
-            </p>
-        </li>
-        <li>
-            <p>{{exercise.description}}</p>
-        </li>
+{% block body %}
+    <title>{% block title %}{{ exercise.name }}{% endblock %}</title>
+    <div class="container my-5 text-white">
+        <div class="text-center mb-5">
+            <h1>{{ exercise.name }}</h1>
+        </div>
 
-        <li>
-            <a href="{{ exercise.linkVideo }}" target="_blank">Watch Video</a>
-        </li>
-    </ul>
-{% else %}
-    <p>No exercises found.</p>
-{% endif %}
-<button onclick="history.back()">Back</button>
+        {% if exercise is not empty %}
+            <div class="card bg-light text-dark mb-3 rounded-lg">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Details</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <p><strong>Category:</strong> {{ exercise.tip.nume }}</p>
+                        </li>
+                        <li class="mb-2">
+                            <p><strong>Description:</strong> {{ exercise.description }}</p>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ exercise.linkVideo }}" target="_blank" class="btn btn-orange">Watch Video</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center">No exercises found.</p>
+        {% endif %}
+
+        <div class="text-right">
+            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+        </div>
+    </div>
+{% endblock %}
