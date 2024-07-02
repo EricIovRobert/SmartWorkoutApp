@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <title>{% block title %}{{ user.nume }}{% endblock %}</title>
+    <div class="container my-5 text-white">
+        <div class="text-center mb-5">
+            <h1>{{ user.nume }}</h1>
+        </div>
+
+        {% if user is not empty %}
+            <div class="card bg-light text-dark mb-4 rounded-lg">
+                <div class="card-header">
+                    <div class="row text-center">
+                        <div class="col-md-2">
+                            <strong>Profile</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Name</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Email</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Birthday</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Gender</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center align-items-center">
+                        <div class="col-md-2">
+                            <div class="thumb-lg member-thumb mx-auto">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar{{ user.id % 9 + 1 }}.png" class="rounded-circle img-thumbnail" alt="profile">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <p>{{ user.nume }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p>{{ user.mail }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>{{ user.birthday|date('d-m-Y') }}</p>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            {% if user.gender == 0 %}
+                                <p>Male</p>
+                            {% elseif user.gender == 1 %}
+                                <p>Female</p>
+                            {% else %}
+                                <p>Not specified</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center">No users found.</p>
+        {% endif %}
+
+        <div class="text-right">
+            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+        </div>
+    </div>
+    <style>
+        .member-thumb img {
+            width: 75px;
+            height: 75px;
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+    </style>
+{% endblock %}

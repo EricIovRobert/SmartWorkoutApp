@@ -2,15 +2,96 @@
 
 {% block body %}
     <title>{% block title %}Home{% endblock %}</title>
-    <div class="text-center my-5 text-white ">
+    <div class="container-fluid bg-dark text-white pt-5">
+        <div class="text-center my-5">
+            <h1>Welcome to SmartWorkout!</h1>
+            <p class="lead">Your ultimate destination for personalized workout plans and fitness tips.</p>
+            <a href="/exercises" class="btn btn-orange btn-lg mt-3">Get Started</a>
+        </div>
 
-        <h1>Welcome to SmartWorkout!</h1>
-        <br>
-        <h2>Here is a menu to navigate through the app</h2>
-        <ul class="list-unstyled">
-            <li class="my-3">
-                <a href="/exercises" class="btn btn-orange">Exercises</a>
-            </li>
-        </ul>
+
+
+        <div class="container mt-5">
+            <h2 class="text-center">Why Choose SmartWorkout?</h2>
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 bg-light text-dark rounded-card text-center p-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Customized Routine</h5>
+                            <p class="card-text">You have full control over your exercise routine</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 bg-light text-dark rounded-card text-center p-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Get guidance</h5>
+                            <p class="card-text">Access tips and guidance from fitness trainers.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 bg-light text-dark rounded-card text-center p-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Track Progress</h5>
+                            <p class="card-text">You can track your progress and stay motivated.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container mt-5">
+            <h2 class="text-center">User Reviews</h2>
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 bg-light text-dark rounded-card text-center p-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Ionescu Andrei
+                            </h5>
+                            <p class="card-text">"A very intuitive platform that allows you to maximize your exercise routine with the minimum effort"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 bg-light text-dark rounded-card text-center p-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Ion Alexandru</h5>
+                            <p class="card-text">"I really like the freedom you get to choose your exercise schedule"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 bg-light text-dark rounded-card text-center p-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Mircea Adrian</h5>
+                            <p class="card-text">"Best app I have ever used to reach my dream body shape"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <p>&copy; 2024 SmartWorkout. All rights reserved.</p>
+        </div>
     </div>
+    <style>
+        .btn-orange {
+            background-color: orange;
+            color: white;
+        }
+        .btn-orange:hover {
+            background-color: darkorange;
+        }
+        .rounded-card {
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+        .rounded-card:hover {
+            transform: translateY(-5px);
+        }
+
+    </style>
 {% endblock %}

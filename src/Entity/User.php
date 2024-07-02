@@ -26,7 +26,7 @@ class User
     private ?string $Parola = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Birthday = null;
+    private ?\DateTime $Birthday = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $Gender = null;
@@ -85,12 +85,12 @@ class User
         return $this;
     }
 
-    public function getBirthday(): ?string
+    public function getBirthday():?\DateTime
     {
         return $this->Birthday;
     }
 
-    public function setBirthday(string $Birthday): static
+    public function setBirthday(\DateTime $Birthday): static
     {
         $this->Birthday = $Birthday;
 
