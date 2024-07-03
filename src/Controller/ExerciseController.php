@@ -3,7 +3,6 @@ namespace App\Controller;
 
 
 use App\Entity\Exercise;
-use App\Entity\Tip;
 use App\Form\Type\ExerciseType;
 use App\Repository\ExerciseRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class ExerciseList extends AbstractController
+class ExerciseController extends AbstractController
 {
     #[Route('/exercises',name: 'exercise_list')]
     public function show_exercise_list(ExerciseRepository $exerciseRepository): Response
@@ -49,11 +48,7 @@ class ExerciseList extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $exercise = $form->getData();
-            $tip = new Tip();
-            $tip->setNume("uuas");
-            $exercise->setTip($tip);
             $entityManager->persist($exercise); #pregateste codul
-            $entityManager->persist($tip);
             $entityManager->flush(); #il ruleaza
 
         }
@@ -61,5 +56,20 @@ class ExerciseList extends AbstractController
         return $this->render('Exercises\addExercisePage.html.twig', ['form' => $form, ]);
     }
 
+    #[Route('/exercise/{id}/edit',name: 'exercise_edit', methods: ['GET', 'PUT'])]
+    public function edit_exercise(Request $request, ExerciseRepository $exerciseRepository,EntityManagerInterface $entityManager, int $id): Response{
+        $exercise = $exerciseRepository->find($id);
+        $form = $this->createForm(ExerciseType::class, $exercise, ['action' => $this->generateUrl('exercise_edit', ['id' => $exercise->getId()]),
+            'method' => 'PUT']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $exercise = $form->getData();
+            $entityManager->persist($exercise);
+            $entityManager->flush();
+            return $this->render('Exercises\edit_success.html.twig');
+        }
+        return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
+    }
 
 }

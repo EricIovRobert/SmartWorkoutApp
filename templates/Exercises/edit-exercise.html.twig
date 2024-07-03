@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <title>{% block title %}Edit exercise{% endblock %}</title>
+    <div class="container my-5 text-white">
+        <div class="text-center mb-5">
+            <h1>Edit exercise</h1>
+        </div>
+
+        <div class="card bg-light text-dark mb-5">
+            <div class="card-body">
+                {{ form(form) }}
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+        </div>
+    </div>
+{% endblock %}
