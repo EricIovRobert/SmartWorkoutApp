@@ -3,6 +3,7 @@ namespace App\Controller;
 
 
 use App\Entity\Exercise;
+use App\Form\Type\DeleteButtonType;
 use App\Form\Type\ExerciseType;
 use App\Repository\ExerciseRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -80,6 +81,27 @@ class ExerciseController extends AbstractController
             return $this->render('Exercises\edit_success.html.twig');
         }
         return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
+    }
+
+    #[Route('/exercise/{id}/delete', name: 'exercise_delete', methods: ['GET', 'DELETE'])]
+    public function delete(Request $request, int $id, ExerciseRepository $exerciseRepository, EntityManagerInterface $entityManager): Response
+    {
+        $exercise = $exerciseRepository->find($id);
+        $form = $this->createForm(DeleteButtonType::class, $exercise, [
+            'action' => $this->generateUrl('exercise_delete', ['id' => $id]),
+            'method' => 'DELETE',
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->remove($exercise);
+            $entityManager->flush();
+            return $this->render('delete_success.html.twig', ['type' => 'exercise']);
+        }
+        return $this->render('delete.html.twig', ['form' => $form, 'type' => 'exercise']);
+
+
     }
 
 }

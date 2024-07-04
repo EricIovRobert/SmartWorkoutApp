@@ -90,16 +90,10 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->remove($user);
             $entityManager->flush();
-            return $this->render('User/delete_success.html.twig', ['type' => 'user']);
+            return $this->render('delete_success.html.twig', ['type' => 'user']);
         }
-        return $this->render('User/delete.html.twig', ['form' => $form, 'type' => 'user']);
-
-
+        return $this->render('delete.html.twig', ['form' => $form, 'type' => 'user']);
 
     }
-
-
-
-
 
 }
