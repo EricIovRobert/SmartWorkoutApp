@@ -75,47 +75,30 @@ class UserController extends AbstractController
         }
         return $this->render('User\edit-user.html.twig', ['form' => $form, ]);
     }
-    #[Route('/user/{id}/delete', name: 'user_delete', methods: ['DELETE'])]
-    public function delete(int $id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+
+    #[Route('/user/{id}/delete', name: 'user_delete', methods: ['GET', 'DELETE'])]
+    public function delete(Request $request, int $id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->find($id);
-
-        if (!$user) {
-            throw $this->createNotFoundException('No user found for id '.$id);
-        }
-
-        $entityManager->remove($user);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('user_delete_success', ['id' => $id]);
-    }
-
-    #[Route('/user/{id}/delete_view', name: 'user_delete_view', methods: ['GET'])]
-    public function deleteView(int $id, UserRepository $userRepository): Response
-    {
-        $user = $userRepository->find($id);
-
-        if (!$user) {
-            throw $this->createNotFoundException('No user found for id '.$id);
-        }
-
-        $form = $this->createForm(DeleteButtonType::class, null, [
+        $form = $this->createForm(DeleteButtonType::class, $user, [
             'action' => $this->generateUrl('user_delete', ['id' => $id]),
             'method' => 'DELETE',
         ]);
 
-        return $this->render('User/deleteConfirmation.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+            return $this->render('User/delete_success.html.twig', ['type' => 'user']);
+        }
+        return $this->render('User/delete.html.twig', ['form' => $form, 'type' => 'user']);
+
+
+
     }
-    #[Route('/user/{id}/deleteSuccess', name: 'user_delete_success', requirements: ['id' => '^\d+$'], methods: ['GET'])]
-    public function deleteSuccess(int $id): Response
-    {
-        return $this->render('User/delete_success.html.twig', [
-            'id' => $id,
-        ]);
-    }
+
+
 
 
 

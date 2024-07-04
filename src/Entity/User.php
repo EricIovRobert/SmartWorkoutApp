@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
@@ -16,6 +17,9 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "Name should not be blank.")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Name must be at least {{ limit }} characters long.", maxMessage: "Name cannot be longer than {{ limit }} characters.")]
+    #[Assert\Regex(pattern: "/^[a-zA-Z]+(?: [a-zA-Z]+)*$/", message: "Name can only contain letters and single spaces between words.")]
     #[ORM\Column(length: 255)]
     private ?string $Nume = null;
 
