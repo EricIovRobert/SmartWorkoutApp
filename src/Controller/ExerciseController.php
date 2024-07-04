@@ -13,12 +13,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ExerciseController extends AbstractController
 {
-    #[Route('/exercises',name: 'exercise_list')]
-    public function show_exercise_list(ExerciseRepository $exerciseRepository): Response
+    #[Route('/exercises', name: 'exercise_list')]
+    public function show_exercise_list(Request $request, ExerciseRepository $exerciseRepository): Response
     {
-        $exercises = $exerciseRepository->findAll();
-        return $this->render('Exercises\exercise_list.html.twig', ['exercises' => $exercises]);
+        $page = $request->query->getInt('page', 1);
+        $limit = 6;
+        $offset = ($page - 1) * $limit;
 
+        $totalExercises = $exerciseRepository->count([]);
+        $exercises = $exerciseRepository->findBy([], null, $limit, $offset);
+
+        return $this->render('Exercises/exercise_list.html.twig', [
+            'exercises' => $exercises,
+            'currentPage' => $page,
+            'totalPages' => ceil($totalExercises / $limit)
+        ]);
     }
 
     #[Route('/exercise/{id}', name: 'individualExercise')]
