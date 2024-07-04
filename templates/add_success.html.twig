@@ -2,8 +2,9 @@
 {% block body %}
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="text-center p-5 bg-dark rounded shadow">
-            <h1 class="text-white mb-4">Successfully edited user</h1>
-            <a href="/users" class="btn btn-orange btn-lg">See user list</a>
+            <h1 class="text-white mb-4">Successfully added a new {{ type }}</h1>
+            <a href="/{{ type}}s" class="btn btn-orange btn-lg">See {{ type }} list</a>
         </div>
     </div>
 {% endblock %}
+

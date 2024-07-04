@@ -2,8 +2,10 @@
 {% block body %}
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="text-center p-5 bg-dark rounded shadow">
-            <h1 class="text-white mb-4">Successfully edited exercise</h1>
-            <a href="/exercises" class="btn btn-orange btn-lg">See exercise list</a>
+            <h1 class="text-white mb-4">Successfully edited {{ type }}</h1>
+            <a href="/{{ type}}s" class="btn btn-orange btn-lg">See {{ type }} list</a>
         </div>
     </div>
 {% endblock %}
+
+

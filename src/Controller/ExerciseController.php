@@ -60,7 +60,7 @@ class ExerciseController extends AbstractController
             $exercise = $form->getData();
             $entityManager->persist($exercise); #pregateste codul
             $entityManager->flush(); #il ruleaza
-            return $this->render('Exercises\edit_success.html.twig');
+            return $this->render('add_success.html.twig',  ['type' => 'exercise']);
 
         }
 
@@ -78,7 +78,7 @@ class ExerciseController extends AbstractController
             $exercise = $form->getData();
             $entityManager->persist($exercise);
             $entityManager->flush();
-            return $this->render('Exercises\edit_success.html.twig');
+            return $this->render('edit_success.html.twig', ['type' => 'exercise']);
         }
         return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
     }
@@ -99,7 +99,7 @@ class ExerciseController extends AbstractController
             $entityManager->flush();
             return $this->render('delete_success.html.twig', ['type' => 'exercise']);
         }
-        return $this->render('delete.html.twig', ['form' => $form, 'type' => 'exercise']);
+        return $this->render('deleteConfirmation.html.twig', ['form' => $form, 'type' => 'exercise']);
 
 
     }
