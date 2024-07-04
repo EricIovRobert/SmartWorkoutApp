@@ -59,6 +59,7 @@ class ExerciseController extends AbstractController
             $exercise = $form->getData();
             $entityManager->persist($exercise); #pregateste codul
             $entityManager->flush(); #il ruleaza
+            return $this->render('Exercises\edit_success.html.twig');
 
         }
 

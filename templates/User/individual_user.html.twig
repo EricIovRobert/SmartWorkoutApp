@@ -20,11 +20,14 @@
                         <div class="col-md-2">
                             <strong>Email</strong>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <strong>Birthday</strong>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <strong>Gender</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Action</strong>
                         </div>
                     </div>
                 </div>
@@ -41,12 +44,10 @@
                         <div class="col-md-2">
                             <p>{{ user.mail }}</p>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <p>{{ user.birthday|date('d-m-Y') }}</p>
                         </div>
-
-
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             {% if user.gender == 0 %}
                                 <p>Male</p>
                             {% elseif user.gender == 1 %}
@@ -55,6 +56,10 @@
                                 <p>Not specified</p>
                             {% endif %}
                         </div>
+                        <div class="col-md-2 d-flex flex-column">
+                            <a href="/user/{{ user.id }}/edit" class="btn btn-primary btn-sm mb-2">Edit User</a>
+                            <a href="/user/{{user.id}}/delete" class="btn btn-danger btn-sm">Delete User</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,7 +67,7 @@
             <p class="text-center">No users found.</p>
         {% endif %}
 
-        <div class="text-right">
+        <div class="text-right mt-3">
             <button class="btn btn-secondary" onclick="history.back()">Back</button>
         </div>
     </div>
@@ -75,6 +80,10 @@
         .card-header {
             background-color: #f8f9fa;
             border-bottom: 1px solid #dee2e6;
+        }
+        .col-md-2.d-flex {
+            flex-direction: column;
+            align-items: center;
         }
     </style>
 {% endblock %}
