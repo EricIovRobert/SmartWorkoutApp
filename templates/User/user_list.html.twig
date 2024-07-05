@@ -24,32 +24,33 @@
                         </div>
                     {% endfor %}
                 </div>
+                <nav aria-label="Page navigation example" >
+
+                    <ul class="pagination justify-content-center" >
+                        {% if currentPage > 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ currentPage - 1 }}">Previous</a>
+                            </li>
+                        {% endif %}
+
+                        {% for page in 1..totalPages %}
+                            <li class="page-item {% if page == currentPage %}active{% endif %}">
+                                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                            </li>
+                        {% endfor %}
+
+                        {% if currentPage < totalPages %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ currentPage + 1 }}">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                </nav>
         {% else %}
             <p class="text-center">No users found</p>
         {% endif %}
-            <nav aria-label="Page navigation example" >
 
-                <ul class="pagination justify-content-center" >
-                    {% if currentPage > 1 %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ currentPage - 1 }}">Previous</a>
-                        </li>
-                    {% endif %}
-
-                    {% for page in 1..totalPages %}
-                        <li class="page-item {% if page == currentPage %}active{% endif %}">
-                            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
-                        </li>
-                    {% endfor %}
-
-                    {% if currentPage < totalPages %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ currentPage + 1 }}">Next</a>
-                        </li>
-                    {% endif %}
-                </ul>
-
-            </nav>
         <div class="text-center mt-5">
             <button class="btn btn-secondary" onclick="history.back()">Back</button>
         </div>

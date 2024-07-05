@@ -17,21 +17,28 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank(message: "Name should not be blank.")]
-    #[Assert\Length(min: 3, max: 255, minMessage: "Name must be at least {{ limit }} characters long.", maxMessage: "Name cannot be longer than {{ limit }} characters.")]
-    #[Assert\Regex(pattern: "/^[a-zA-Z]+(?: [a-zA-Z]+)*$/", message: "Name can only contain letters and single spaces between words.")]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255,minMessage: "Name should be at least {{ limit }} characters long",maxMessage: "Name should be maximum length {{ limit }} characters long")]
+    #[Assert\Regex(pattern: "/^[a-zA-Z]+(?: [a-zA-Z]+)*$/")]
     #[ORM\Column(length: 255)]
     private ?string $Nume = null;
-
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/")]
     #[ORM\Column(length: 255)]
     private ?string $mail = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 8, max: 255,minMessage: "Parola minim 8", maxMessage: "Parola maxim 255")]
     #[ORM\Column(length: 255)]
     private ?string $Parola = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?\DateTime $Birthday = null;
 
+    #[Assert\NotNull]
+    #[Assert\Choice(choices: [0, 1, 2])]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $Gender = null;
 

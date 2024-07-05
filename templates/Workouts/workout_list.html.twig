@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Workouts{% endblock %}
+
+{% block body %}
+    <h1 class="text-white">Workouts</h1>
+
+    {% if workouts is not empty %}
+        <table>
+            <thead>
+            <tr class="text-white">
+                <th>Category</th>
+                <th>Created By</th>
+                <th>Name</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for workout in workouts %}
+                <tr class="text-white">
+                    <td>{{ workout.tip.nume}}</td>
+                    <td>{{ workout.user.nume     }}</td>
+                    <td>{{ workout.name }}</td>
+                    <td>{{ workout.date|date('Y-m-d') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    {% else %}
+        <p>No workouts found.</p>
+    {% endif %}
+{% endblock %}
