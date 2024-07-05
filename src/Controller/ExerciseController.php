@@ -31,7 +31,7 @@ class ExerciseController extends AbstractController
         ]);
     }
 
-    #[Route('/exercise/{id}', name: 'individualExercise')]
+    #[Route('/exercise/{id}', name: 'individualExercise', methods: ["GET"])]
 
     public function show_exercise(ExerciseRepository $exerciseRepository, int $id): Response
     {
@@ -67,8 +67,25 @@ class ExerciseController extends AbstractController
         return $this->render('Exercises\addExercisePage.html.twig', ['form' => $form, ]);
     }
 
-    #[Route('/exercise/{id}/edit',name: 'exercise_edit', methods: ['GET', 'PUT'])]
-    public function edit_exercise(Request $request, ExerciseRepository $exerciseRepository,EntityManagerInterface $entityManager, int $id): Response{
+    #[Route('/exercise/{id}/edit-form',name: 'show_exercise_edit', methods: ['GET'])]
+    public function showEditForm(Request $request, ExerciseRepository $exerciseRepository,EntityManagerInterface $entityManager, int $id): Response
+    {
+        $exercise = $exerciseRepository->find($id);
+        $form = $this->createForm(ExerciseType::class, $exercise, ['action' => $this->generateUrl('exercise_edit', ['id' => $id]),
+            'method' => 'PUT']);
+        $form->handleRequest($request);
+
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $exercise = $form->getData();
+//            $entityManager->persist($exercise);
+//            $entityManager->flush();
+//            return $this->render('edit_success.html.twig', ['type' => 'exercise']);
+//        }
+        return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
+    }
+
+    #[Route('/exercise/{id}',name: 'exercise_edit', methods: ['PUT'])]
+    public function edit(Request $request, ExerciseRepository $exerciseRepository,EntityManagerInterface $entityManager, int $id): Response{
         $exercise = $exerciseRepository->find($id);
         $form = $this->createForm(ExerciseType::class, $exercise, ['action' => $this->generateUrl('exercise_edit', ['id' => $exercise->getId()]),
             'method' => 'PUT']);
@@ -83,11 +100,32 @@ class ExerciseController extends AbstractController
         return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
     }
 
-    #[Route('/exercise/{id}/delete', name: 'exercise_delete', methods: ['GET', 'DELETE'])]
+    #[Route('/exercise/{id}/delete-form', name: 'show_exercise_delete', methods: ['GET'])]
+    public function showDeleteForm(Request $request, int $id, ExerciseRepository $exerciseRepository, EntityManagerInterface $entityManager): Response
+    {
+        //$exercise = $exerciseRepository->find($id);
+        $form = $this->createForm(DeleteButtonType::class, null, [
+            'action' => $this->generateUrl('exercise_delete', ['id' => $id]),
+            'method' => 'DELETE',
+        ]);
+
+        $form->handleRequest($request);
+
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $entityManager->remove($exercise);
+//            $entityManager->flush();
+//            return $this->render('delete_success.html.twig', ['type' => 'exercise']);
+//        }
+        return $this->render('deleteConfirmation.html.twig', ['form' => $form, 'type' => 'exercise']);
+
+
+    }
+
+    #[Route('/exercise/{id}', name: 'exercise_delete', methods: ['DELETE'])]
     public function delete(Request $request, int $id, ExerciseRepository $exerciseRepository, EntityManagerInterface $entityManager): Response
     {
         $exercise = $exerciseRepository->find($id);
-        $form = $this->createForm(DeleteButtonType::class, $exercise, [
+        $form = $this->createForm(DeleteButtonType::class, null, [
             'action' => $this->generateUrl('exercise_delete', ['id' => $id]),
             'method' => 'DELETE',
         ]);
@@ -100,7 +138,6 @@ class ExerciseController extends AbstractController
             return $this->render('delete_success.html.twig', ['type' => 'exercise']);
         }
         return $this->render('deleteConfirmation.html.twig', ['form' => $form, 'type' => 'exercise']);
-
 
     }
 
