@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\ExerciseLog;
+use App\Form\Type\ExerciseLogType;
 use App\Repository\WorkoutRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,5 +23,22 @@ class ExerciseLogController extends AbstractController
             'workout' => $workout,
             'exerciseLogs' => $exerciseLogs,
         ]);
+    }
+    #[Route('/exerciseLog-form',name: 'exercise_log_form', methods: array('GET', 'POST'))]
+    public function exerciseLogForm(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $exerciseLog = new ExerciseLog();
+        $form = $this->createForm(ExerciseLogType::class, $exerciseLog);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $exerciseLog = $form->getData();
+            $entityManager->persist($exerciseLog);
+            $entityManager->flush();
+            return $this->render('add_success.html.twig',  ['type' => 'exercise log']);
+        }
+        return $this->render('ExerciseLog\addExerciseLogPage.html.twig', ['form' => $form, ]);
+
     }
 }
