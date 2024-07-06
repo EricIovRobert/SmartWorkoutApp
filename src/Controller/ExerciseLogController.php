@@ -24,10 +24,12 @@ class ExerciseLogController extends AbstractController
             'exerciseLogs' => $exerciseLogs,
         ]);
     }
-    #[Route('/exerciseLog-form',name: 'exercise_log_form', methods: array('GET', 'POST'))]
-    public function exerciseLogForm(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/workout/{id}/exercise-log/form',name: 'exercise_log_form', methods: array('GET', 'POST'))]
+    public function exerciseLogForm(int $id, Request $request, EntityManagerInterface $entityManager, WorkoutRepository $workoutRepository): Response
     {
+        $workout = $workoutRepository->find($id);
         $exerciseLog = new ExerciseLog();
+        $exerciseLog->setWorkout($workout);
         $form = $this->createForm(ExerciseLogType::class, $exerciseLog);
 
         $form->handleRequest($request);
@@ -36,9 +38,9 @@ class ExerciseLogController extends AbstractController
             $exerciseLog = $form->getData();
             $entityManager->persist($exerciseLog);
             $entityManager->flush();
-            return $this->render('add_success.html.twig',  ['type' => 'exercise log']);
+            return $this->render('ExerciseLog/success.html.twig',  ['workout' => $workout]);
         }
-        return $this->render('ExerciseLog\addExerciseLogPage.html.twig', ['form' => $form, ]);
+        return $this->render('ExerciseLog\addExerciseLogPage.html.twig', ['form' => $form, 'workout'=>$workout]);
 
     }
 }

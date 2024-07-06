@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <title>{% block title %}Exercise Logs for {{ workout.name }}{% endblock %}</title>
+    <title>{% block title %}Exercise Logs for "{{ workout.name }}"{% endblock %}</title>
     <div class="container my-5 text-white">
-        <h1 class="text-center">Exercise Logs for {{ workout.name }}</h1>
+        <h1 class="text-center">Exercise Logs for "{{ workout.name }}"</h1>
         <br>
         <div class="d-flex justify-content-end mb-3">
-            <a href="/exerciseLog-form" class="btn btn-orange">Add Exercise Log</a>
+            <a href="{{ path('exercise_log_form', {'id': workout.id}) }}" class="btn btn-orange btn-lg">Add Exercise</a>
         </div>
         {% if exerciseLogs is not empty %}
             <div class="row" align="center">

@@ -6,19 +6,16 @@
             {{ form_errors(form) }}
         </div>
     {% endif %}
-    <title>{% block title %}Add an Exercise Log{% endblock %}</title>
+    <title>{% block title %}Add an Exercise Log for {{ workout.name }}{% endblock %}</title>
     <div class="container my-5 text-white d-flex flex-column align-items-center">
         <div class="text-center mb-5">
-            <h1>Add New Exercise Log</h1>
+            <h1>Add New ExerciseLog for {{ workout.name }}</h1>
         </div>
 
         <div class="card bg-light text-dark mb-5 w-75">
             <div class="card-body">
                 {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-                <div class="form-group mb-3">
-                    {{ form_label(form.workout, 'Workout', {'label_attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(form.workout, {'attr': {'class': 'form-control'}}) }}
-                </div>
+
                 <div class="form-group mb-3">
                     {{ form_label(form.exercise, 'Exercise', {'label_attr': {'class': 'form-label'}}) }}
                     {{ form_widget(form.exercise, {'attr': {'class': 'form-control'}}) }}
