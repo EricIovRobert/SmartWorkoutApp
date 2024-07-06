@@ -84,7 +84,7 @@ class UserController extends AbstractController
             'method' => 'PUT']);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isValid() && $form->isSubmitted()) {
             $user = $form->getData();
             $entityManager->persist($user);
             $entityManager->flush();

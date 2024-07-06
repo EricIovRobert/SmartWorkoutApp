@@ -6,30 +6,30 @@
             {{ form_errors(form) }}
         </div>
     {% endif %}
-    <title>{% block title %}Edit exercise{% endblock %}</title>
+    <title>{% block title %}Add a Workout{% endblock %}</title>
     <div class="container my-5 text-white d-flex flex-column align-items-center">
         <div class="text-center mb-5">
-            <h1>Edit exercise</h1>
+            <h1>Add New Workout</h1>
         </div>
 
         <div class="card bg-light text-dark mb-5 w-75">
             <div class="card-body">
                 {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                 <div class="form-group mb-3">
-                    {{ form_label(form.name, 'Name', {'label_attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_label(form.Name, 'Name', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.Name, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div class="form-group mb-3">
-                    {{ form_label(form.link_video, 'Video Link', {'label_attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(form.link_video, {'attr': {'class': 'form-control'}}) }}
-                </div>
-                <div class="form-group mb-3">
-                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_label(form.Date, 'Date', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.Date, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div class="form-group mb-3">
                     {{ form_label(form.tip, 'Tip', {'label_attr': {'class': 'form-label'}}) }}
                     {{ form_widget(form.tip, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form_label(form.user, 'User', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.user, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div class="form-group text-center mb-3">
                     {{ form_widget(form.submit, {'attr': {'class': 'btn btn-orange'}}) }}

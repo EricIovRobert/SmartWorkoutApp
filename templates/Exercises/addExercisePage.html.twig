@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% if not form.vars.valid %}
+        <div class="alert alert-danger">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
     <title>{% block title %}Add an exercise{% endblock %}</title>
     <div class="container my-5 text-white d-flex flex-column align-items-center">
         <div class="text-center mb-5">

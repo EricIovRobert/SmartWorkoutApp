@@ -17,28 +17,53 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 3, max: 255,minMessage: "Name should be at least {{ limit }} characters long",maxMessage: "Name should be maximum length {{ limit }} characters long")]
-    #[Assert\Regex(pattern: "/^[a-zA-Z]+(?: [a-zA-Z]+)*$/")]
+    #[Assert\NotBlank(message: "Name cannot be blank")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "Name should be at least {{ limit }} characters long",
+        maxMessage: "Name should be maximum length {{ limit }} characters long"
+    )]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z]+(?: [a-zA-Z]+)*$/",
+        message: "Name should only contain alphabetic characters and spaces"
+    )]
     #[ORM\Column(length: 255)]
     private ?string $Nume = null;
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
-    #[Assert\Regex(pattern: "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/")]
+    #[Assert\NotBlank(message: "Email cannot be blank")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "Email should be maximum {{ limit }} characters long"
+    )]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",
+        message: "Email should be a valid email address"
+    )]
     #[ORM\Column(length: 255)]
     private ?string $mail = null;
 
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 8, max: 255,minMessage: "Parola minim 8", maxMessage: "Parola maxim 255")]
+    #[Assert\NotBlank(message: "Password cannot be blank")]
+    #[Assert\Length(
+        min: 8,
+        max: 255,
+        minMessage: "Password should be at least {{ limit }} characters long",
+        maxMessage: "Password should be maximum {{ limit }} characters long"
+    )]
+    #[Assert\Regex(
+        pattern: "/^(?=.*[0-9])(?=.*[!@#$%?^&*])[A-Za-z0-9!@#$%?^&*]{8,}$/",
+        message: "Password should contain at least one number and one special character ($, #, @, !, *, &, ?, %, ^)"
+    )]
     #[ORM\Column(length: 255)]
     private ?string $Parola = null;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Birthday cannot be blank")]
     #[ORM\Column(length: 255)]
     private ?\DateTime $Birthday = null;
 
-    #[Assert\NotNull]
-    #[Assert\Choice(choices: [0, 1, 2])]
+    #[Assert\NotNull(message: "Gender cannot be null")]
+    #[Assert\Choice(
+        choices: [0, 1, 2]
+    )]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $Gender = null;
 
