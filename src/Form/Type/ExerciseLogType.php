@@ -24,7 +24,7 @@ class ExerciseLogType extends AbstractType
                     return $exercise->getName();
                 },
             ])
-            ->add('nr_reps', IntegerType::class)
+            ->add('nr_reps', IntegerType::class, ['attr' => ['min' => 1]])
             ->add('duration', TimeType::class, [
                 'widget' => 'choice',
                 'hours' => range(0, 0),

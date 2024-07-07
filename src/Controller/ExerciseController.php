@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Exercise;
 use App\Form\Type\DeleteButtonType;
 use App\Form\Type\ExerciseType;
-use App\Form\Type\WorkoutType;
 use App\Repository\ExerciseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,7 +71,7 @@ class ExerciseController extends AbstractController
     public function showEditForm(Request $request, ExerciseRepository $exerciseRepository,EntityManagerInterface $entityManager, int $id): Response
     {
         $exercise = $exerciseRepository->find($id);
-        $form = $this->createForm(WorkoutType::class, $exercise, ['action' => $this->generateUrl('exercise_edit', ['id' => $id]),
+        $form = $this->createForm(ExerciseType::class, $exercise, ['action' => $this->generateUrl('exercise_edit', ['id' => $id]),
             'method' => 'PUT']);
         $form->handleRequest($request);
 
@@ -88,7 +87,7 @@ class ExerciseController extends AbstractController
     #[Route('/exercise/{id}',name: 'exercise_edit', methods: ['PUT'])]
     public function edit(Request $request, ExerciseRepository $exerciseRepository,EntityManagerInterface $entityManager, int $id): Response{
         $exercise = $exerciseRepository->find($id);
-        $form = $this->createForm(WorkoutType::class, $exercise, ['action' => $this->generateUrl('exercise_edit', ['id' => $exercise->getId()]),
+        $form = $this->createForm(ExerciseType::class, $exercise, ['action' => $this->generateUrl('exercise_edit', ['id' => $exercise->getId()]),
             'method' => 'PUT']);
         $form->handleRequest($request);
 

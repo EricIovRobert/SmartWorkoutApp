@@ -25,7 +25,7 @@ class UserType extends AbstractType{
             ->add('mail',EmailType::class)
             ->add ('parola',PasswordType::class, array(
                 'label' => 'Password'))
-            ->add('birthday',BirthdayType::class)
+            ->add('birthday',BirthdayType::class, ['years' => range(1950, date('Y'))])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
                     'Male' => 0,

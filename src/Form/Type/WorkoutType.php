@@ -19,7 +19,11 @@ class WorkoutType extends AbstractType
     {
         $builder
             ->add('Name', TextType::class)
-            ->add('Date', DateType::class)
+            ->add('Date', DateType::class, [
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
+                'disabled' =>true,
+            ])
             ->add('tip', EntityType::class, [
                 'class' => Tip::class,
                 'choice_label' => function(Tip $tip) {

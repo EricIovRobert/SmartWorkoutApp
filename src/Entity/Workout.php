@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: WorkoutRepository::class)]
 class Workout
@@ -16,16 +18,24 @@ class Workout
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "Name cannot be blank")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "Name should be at least {{ limit }} characters long",
+        maxMessage: "Name should be maximum {{ limit }} characters long"
+    )]
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $Date = null;
-
+    #[Assert\NotBlank(message: 'Tip should not be blank')]
     #[ORM\ManyToOne(inversedBy: 'workouts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tip $tip = null;
 
+    #[Assert\NotBlank(message: 'User should not be blank')]
     #[ORM\ManyToOne(inversedBy: 'workouts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;

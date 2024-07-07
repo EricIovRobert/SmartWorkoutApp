@@ -13,7 +13,19 @@
                             <div class="card h-100 bg-light text-dark rounded-card">
                                 <div class="card-body">
                                     <div class="thumb-lg member-thumb mx-auto">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar{{ user.id % 9 + 1 }}.png" class="rounded-circle img-thumbnail" alt="profile">
+                                        {% set maleAvatars = [1, 2, 4, 5, 6, 7] %}
+                                        {% set femaleAvatars = [3, 8] %}
+                                        {% set allAvatars = [1, 2, 3, 4, 5, 6, 7, 8] %}
+
+                                        {% if user.gender == 1 %}
+                                            {% set avatar = femaleAvatars[(user.id) % 2] %}
+                                        {% elseif user.gender == 0 %}
+                                            {% set avatar = maleAvatars[(user.id) % 6] %}
+                                        {% else %}
+                                            {% set randomIndex = (allAvatars|length - 1) * random() %}
+                                            {% set avatar = allAvatars[randomIndex|round] %}
+                                        {% endif %}
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar{{ avatar }}.png" class="rounded-circle img-thumbnail" alt="profile">
                                     </div>
                                     <h5  class="card-title">
                                         {{ user.nume }}

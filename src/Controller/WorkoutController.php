@@ -39,6 +39,7 @@ class WorkoutController extends AbstractController{
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $workout->setDate(new \DateTime());
             $workout = $form->getData();
             $entityManager->persist($workout);
             $entityManager->flush();
