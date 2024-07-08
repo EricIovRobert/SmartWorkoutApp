@@ -4,6 +4,11 @@
     {% if not form.vars.valid %}
         <div class="alert alert-danger">
             {{ form_errors(form) }}
+            {% for children in form.children %}
+                {% for field in children.elements %}
+                    {{ field.errors[0] }}
+                {% endfor %}
+            {% endfor %}
         </div>
     {% endif %}
     <title>{% block title %}Add an Exercise Log for {{ workout.name }}{% endblock %}</title>

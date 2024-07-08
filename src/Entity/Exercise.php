@@ -129,7 +129,6 @@ class Exercise
     public function removeExerciseLog(ExerciseLog $exerciseLog): static
     {
         if ($this->exerciseLogs->removeElement($exerciseLog)) {
-            // set the owning side to null (unless already changed)
             if ($exerciseLog->getExercise() === $this) {
                 $exerciseLog->setExercise(null);
             }

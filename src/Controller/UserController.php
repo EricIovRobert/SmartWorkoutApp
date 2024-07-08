@@ -72,7 +72,7 @@ class UserController extends AbstractController
 //            $user = $form->getData();
 //            $entityManager->persist($user);
 //            $entityManager->flush();
-//            return $this->render('edit_success.html.twig', ['type' => 'user']);
+//            return $this->render('operation_success.html.twig', ['type' => 'user']);
 //        }
         return $this->render('User\edit-user.html.twig', ['form' => $form, ]);
     }
@@ -88,7 +88,7 @@ class UserController extends AbstractController
             $user = $form->getData();
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->render('edit_success.html.twig', ['type' => 'user']);
+            return $this->render('operation_success.html.twig', ['type' => 'user']);
         }
         return $this->render('User\edit-user.html.twig', ['form' => $form, ]);
     }

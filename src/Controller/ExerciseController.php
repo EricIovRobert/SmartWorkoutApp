@@ -63,7 +63,6 @@ class ExerciseController extends AbstractController
             return $this->render('add_success.html.twig',  ['type' => 'exercise']);
 
         }
-
         return $this->render('Exercises\addExercisePage.html.twig', ['form' => $form, ]);
     }
 
@@ -79,7 +78,7 @@ class ExerciseController extends AbstractController
 //            $exercise = $form->getData();
 //            $entityManager->persist($exercise);
 //            $entityManager->flush();
-//            return $this->render('edit_success.html.twig', ['type' => 'exercise']);
+//            return $this->render('operation_success.html.twig', ['type' => 'exercise']);
 //        }
         return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
     }
@@ -95,7 +94,7 @@ class ExerciseController extends AbstractController
             $exercise = $form->getData();
             $entityManager->persist($exercise);
             $entityManager->flush();
-            return $this->render('edit_success.html.twig', ['type' => 'exercise']);
+            return $this->render('operation_success.html.twig', ['type' => 'exercise']);
         }
         return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
     }

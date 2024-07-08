@@ -27,8 +27,8 @@
                                 <td>{{ log.nrReps }}</td>
                                 <td>{{ log.duration|date('i:s') }}</td>
                                 <td>
-                                    <a href="/exercise_log/{{ log.id }}/edit" class="btn btn-primary btn-sm me-2">Edit</a>
-                                    <a href="/exercise_log/{{ log.id }}/delete" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="/workout/{{ workout.id }}/exercise-log/{{ log.id}}/edit-form" class="btn btn-primary btn-sm me-2">Edit</a>
+                                    <a href="/workout/{{ workout.id }}/exercise-log/{{ log.id}}/delete-form" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>
                         {% endfor %}
