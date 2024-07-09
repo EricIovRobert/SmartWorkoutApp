@@ -4,17 +4,21 @@
     {% if not form.vars.valid %}
         <div class="alert alert-danger">
             {{ form_errors(form) }}
-            {% for children in form.children %}
-                {% for field in children.elements %}
-                    {{ field.errors[0] }}
+            <ul>
+                {% for child in form %}
+                    {% if child.vars.errors is defined and child.vars.errors|length > 0 %}
+                        {% for error in child.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
-            {% endfor %}
+            </ul>
         </div>
     {% endif %}
-    <title>{% block title %}Add an Exercise Log for {{ workout.name }}{% endblock %}</title>
+    <title>{% block title %}Add an Exercise Log for "{{ workout.name }}"{% endblock %}</title>
     <div class="container my-5 text-white d-flex flex-column align-items-center">
         <div class="text-center mb-5">
-            <h1>Add New ExerciseLog for {{ workout.name }}</h1>
+            <h1>Add New ExerciseLog for "{{ workout.name }}"</h1>
         </div>
 
         <div class="card bg-light text-dark mb-5 w-75">
@@ -41,7 +45,7 @@
         </div>
 
         <div class="text-center">
-            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+            <a href="{{ path('exercise_log_list', {'id': workout.id}) }}" class="btn btn-secondary">Back</a>
         </div>
     </div>
 {% endblock %}

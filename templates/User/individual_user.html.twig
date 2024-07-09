@@ -37,17 +37,16 @@
                             <div class="thumb-lg member-thumb mx-auto">
                                 {% set maleAvatars = [1, 2, 4, 5, 6, 7] %}
                                 {% set femaleAvatars = [3, 8] %}
-                                {% set allAvatars = [1, 2, 3, 4, 5, 6, 7, 8] %}
-
                                 {% if user.gender == 1 %}
                                     {% set avatar = femaleAvatars[(user.id) % 2] %}
                                 {% elseif user.gender == 0 %}
                                     {% set avatar = maleAvatars[(user.id) % 6] %}
-                                {% else %}
-                                    {% set randomIndex = (allAvatars|length - 1) * random() %}
-                                    {% set avatar = allAvatars[randomIndex|round] %}
                                 {% endif %}
-                                <img src="https://bootdey.com/img/Content/avatar/avatar{{ avatar }}.png" class="rounded-circle img-thumbnail" alt="profile">
+                                {% if user.gender==0 or user.gender==1 %}
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar{{ avatar }}.png" class="rounded-circle img-thumbnail" alt="profile">
+                                {% else %}
+                                    <img src="https://t3.ftcdn.net/jpg/03/35/13/14/360_F_335131435_DrHIQjlOKlu3GCXtpFkIG1v0cGgM9vJC.jpg" class="rounded-circle img-thumbnail" alt="profile">
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -80,7 +79,8 @@
         {% endif %}
 
         <div class="text-right mt-3">
-            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+            <a href="/users" class="btn btn-secondary">Back</a>
+
         </div>
     </div>
     <style>

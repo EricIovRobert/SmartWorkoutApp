@@ -4,6 +4,15 @@
     {% if not form.vars.valid %}
         <div class="alert alert-danger">
             {{ form_errors(form) }}
+            <ul>
+                {% for child in form %}
+                    {% if child.vars.errors is defined and child.vars.errors|length > 0 %}
+                        {% for error in child.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
         </div>
     {% endif %}
     <title>{% block title %}Add a Workout{% endblock %}</title>
@@ -39,7 +48,7 @@
         </div>
 
         <div class="text-center">
-            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+            <a href="/" class="btn btn-secondary">Back</a>
         </div>
     </div>
 {% endblock %}

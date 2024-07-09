@@ -74,7 +74,7 @@ class UserController extends AbstractController
 //            $entityManager->flush();
 //            return $this->render('operation_success.html.twig', ['type' => 'user']);
 //        }
-        return $this->render('User\edit-user.html.twig', ['form' => $form, ]);
+        return $this->render('User\edit-user.html.twig', ['form' => $form, 'user' => $user]);
     }
 
     #[Route('/user/{id}',name: 'user_edit', methods: ['PUT'])]
@@ -90,7 +90,7 @@ class UserController extends AbstractController
             $entityManager->flush();
             return $this->render('operation_success.html.twig', ['type' => 'user']);
         }
-        return $this->render('User\edit-user.html.twig', ['form' => $form, ]);
+        return $this->render('User\edit-user.html.twig', ['form' => $form, 'user' => $user]);
     }
 
     #[Route('/user/{id}/delete-form', name: 'show_user_delete', methods: ['GET'])]

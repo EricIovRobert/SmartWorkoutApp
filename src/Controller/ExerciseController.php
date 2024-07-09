@@ -58,12 +58,14 @@ class ExerciseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $exercise = $form->getData();
+
             $entityManager->persist($exercise); #pregateste codul
             $entityManager->flush(); #il ruleaza
             return $this->render('add_success.html.twig',  ['type' => 'exercise']);
 
         }
-        return $this->render('Exercises\addExercisePage.html.twig', ['form' => $form, ]);
+        //dd($form);
+        return $this->render('Exercises\addExercisePage.html.twig', ['form' => $form, 'exercise'=>$exercise ]);
     }
 
     #[Route('/exercise/{id}/edit-form',name: 'show_exercise_edit', methods: ['GET'])]
@@ -80,7 +82,7 @@ class ExerciseController extends AbstractController
 //            $entityManager->flush();
 //            return $this->render('operation_success.html.twig', ['type' => 'exercise']);
 //        }
-        return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
+        return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, 'exercise'=>$exercise  ]);
     }
 
     #[Route('/exercise/{id}',name: 'exercise_edit', methods: ['PUT'])]
@@ -96,7 +98,8 @@ class ExerciseController extends AbstractController
             $entityManager->flush();
             return $this->render('operation_success.html.twig', ['type' => 'exercise']);
         }
-        return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form, ]);
+
+        return $this->render('Exercises\edit-exercise.html.twig', ['form' => $form,  'exercise'=>$exercise ]);
     }
 
     #[Route('/exercise/{id}/delete-form', name: 'show_exercise_delete', methods: ['GET'])]
