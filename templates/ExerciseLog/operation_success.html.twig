@@ -2,7 +2,7 @@
 {% block body %}
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="text-center p-5 bg-dark rounded shadow">
-            <h1 class="text-white mb-4">Successfully {{ type }} exercise log from {{ ex.workout.name }}</h1>
+            <h1 class="text-white mb-4">Successfully {{ type }} exercise log from "{{ ex.workout.name }}"</h1>
             <a href="/workout/{{ ex.workout.id }}/exercise-log" class="btn btn-orange btn-lg">See workout</a>
         </div>
     </div>

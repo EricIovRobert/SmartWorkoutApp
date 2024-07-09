@@ -47,10 +47,10 @@ class ExerciseLogController extends AbstractController
     #[Route('/workout/{id}/exercise-log/{id2}/edit-form',name: 'show_exercise_log_edit', methods: ['GET'])]
     public function showExerciseLogForm(Request $request, ExerciseLogRepository $exerciseLogRepository, WorkoutRepository $workoutRepository, int $id, EntityManagerInterface $entityManager, int $id2): Response
     {
-        $exerciseLog = $exerciseLogRepository->find($id);
+        $exerciseLog = $exerciseLogRepository->find($id2);
         $form = $this->createForm(ExerciseLogType::class, $exerciseLog, ['action' => $this->generateUrl('exercise_log_edit', ['id' => $id, 'id2' => $id2]), 'method' => 'PUT']);
         $form->handleRequest($request);
-        return $this->render('ExerciseLog/editExerciseLog.html.twig', ['form' => $form]);
+        return $this->render('ExerciseLog/editExerciseLog.html.twig', ['form' => $form, 'ex'=>$exerciseLog]);
     }
 
     #[Route('/workout/{id}/exercise-log/{id2}',name: 'exercise_log_edit', methods: ['PUT'])]
@@ -68,7 +68,7 @@ class ExerciseLogController extends AbstractController
             $entityManager->flush();
             return $this->render('ExerciseLog/operation_success.html.twig', ['ex' => $exerciseLog, 'type'=>'edited']);
         }
-        return $this->render('ExerciseLog/editExerciseLog.html.twig', ['form' => $form]);
+        return $this->render('ExerciseLog/editExerciseLog.html.twig', ['form' => $form, 'ex'=>$exerciseLog], );
     }
 
     #[Route('/workout/{id}/exercise-log/{id2}/delete-form', name: 'show_exercise_log_delete', methods: ['GET'])]
