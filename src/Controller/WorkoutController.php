@@ -11,9 +11,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\WorkoutRepository;
+use Symfony\Component\Security\Core\Security;
 
 class WorkoutController extends AbstractController{
 
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
     #[Route('/workouts', name: 'workout_list')]
     public function show_workout_list(WorkoutRepository $workoutRepository,Request $request): Response
     {
@@ -40,11 +47,12 @@ class WorkoutController extends AbstractController{
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $currentUser = $this->security->getUser();
+            $workout->setUser($currentUser);
             $workout->setDate(new \DateTime());
-            $workout = $form->getData();
             $entityManager->persist($workout);
             $entityManager->flush();
-            return $this->render('add_success.html.twig',  ['type' => 'workout']);
+            return $this->render('add_success.html.twig', ['type' => 'workout']);
         }
         return $this->render('Workouts\addWorkoutPage.html.twig', ['form' => $form, ]);
     }

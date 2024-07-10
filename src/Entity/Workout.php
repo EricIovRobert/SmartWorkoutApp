@@ -35,7 +35,6 @@ class Workout
     #[ORM\JoinColumn(nullable: false)]
     private ?Tip $tip = null;
 
-    #[Assert\NotBlank(message: 'User should not be blank')]
     #[ORM\ManyToOne(inversedBy: 'workouts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;

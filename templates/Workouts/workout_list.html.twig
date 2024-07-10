@@ -14,7 +14,6 @@
                             <th>Name</th>
                             <th>Category</th>
                             <th>Created By</th>
-
                             <th>Available since</th>
                             <th>Actions</th>
                         </tr>
@@ -28,8 +27,10 @@
                                 <td>{{ workout.date|date('d-m-Y') }}</td>
                                 <td>
                                     <a href="{{ path('exercise_log_list', {'id': workout.id}) }}" class="btn btn-orange btn-sm me-2 mt-1">View Exercises</a>
-                                    <a href="{{ path('show_workout_edit', {'id': workout.id}) }}" class="btn btn-warning btn-sm me-2 mt-1">Edit</a>
-                                    <a href="{{ path('show_workout_delete', {'id': workout.id}) }}" class="btn btn-danger btn-sm mt-1">Delete</a>
+                                    {% if app.user and (is_granted('ROLE_ADMIN') or app.user == workout.user) %}
+                                        <a href="{{ path('show_workout_edit', {'id': workout.id}) }}" class="btn btn-warning btn-sm me-2 mt-1">Edit</a>
+                                        <a href="{{ path('show_workout_delete', {'id': workout.id}) }}" class="btn btn-danger btn-sm mt-1">Delete</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -63,7 +64,7 @@
             <p class="text-center">No workouts found.</p>
         {% endif %}
         <div class="text-center mt-5">
-            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+            <a href="/" class="btn btn-secondary">Back</a>
         </div>
     </div>
 

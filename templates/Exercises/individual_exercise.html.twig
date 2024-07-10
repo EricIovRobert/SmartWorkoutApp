@@ -23,12 +23,14 @@
                                 <iframe class="embed-responsive-item" src="{{ exercise.linkVideo | replace({'watch?v=': 'embed/'}) }}" allowfullscreen style="width: 100%; height: 100%;"></iframe>
                             </div>
                         </li>
-                        <li class="mb-2 text-center">
-                            <a href="/exercise/{{ exercise.id }}/edit-form" class="btn btn-orange mt-3">Edit exercise</a>
-                        </li>
-                        <li class="mb-2 text-center">
-                            <a href="/exercise/{{ exercise.id }}/delete-form" class="btn btn-danger mt-3">Delete exercise</a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TRAINER')%}
+                            <li class="mb-2 text-center">
+                                <a href="/exercise/{{ exercise.id }}/edit-form" class="btn btn-orange mt-3">Edit exercise</a>
+                            </li>
+                            <li class="mb-2 text-center">
+                                <a href="/exercise/{{ exercise.id }}/delete-form" class="btn btn-danger mt-3">Delete exercise</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

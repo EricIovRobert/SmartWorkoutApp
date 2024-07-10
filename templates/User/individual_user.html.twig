@@ -26,9 +26,11 @@
                         <div class="col-md-2">
                             <strong>Gender</strong>
                         </div>
-                        <div class="col-md-2">
+                        {% if app.user and (is_granted('ROLE_ADMIN') or app.user == user) %}
+                            <div class="col-md-2">
                             <strong>Action</strong>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
@@ -68,8 +70,10 @@
                             {% endif %}
                         </div>
                         <div class="col-md-2 d-flex flex-column">
+                            {% if app.user and (is_granted('ROLE_ADMIN') or app.user == user) %}
                             <a href="/user/{{ user.id }}/edit-form" class="btn btn-primary btn-sm mb-2">Edit User</a>
                             <a href="/user/{{user.id}}/delete-form" class="btn btn-danger btn-sm">Delete User</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -5,9 +5,11 @@
     <div class="container my-5 text-white">
         <h1 class="text-center">Exercise Logs for "{{ workout.name }}"</h1>
         <br>
-        <div class="d-flex justify-content-end mb-3">
-            <a href="{{ path('exercise_log_form', {'id': workout.id}) }}" class="btn btn-orange btn-lg">Add Exercise</a>
-        </div>
+        {% if app.user and (is_granted('ROLE_ADMIN') or app.user == workout.user) %}
+            <div class="d-flex justify-content-end mb-3">
+                <a href="{{ path('exercise_log_form', {'id': workout.id}) }}" class="btn btn-orange btn-lg">Add Exercise</a>
+            </div>
+        {% endif %}
         {% if exerciseLogs is not empty %}
             <div class="row" align="center">
                 <div class="col-12">
@@ -17,7 +19,8 @@
                             <th>Exercise Name</th>
                             <th>Number of Reps</th>
                             <th>Duration (min)</th>
-                            <th>Actions</th>
+                            {% if app.user and (is_granted('ROLE_ADMIN') or app.user == workout.user) %}
+                                <th>Actions</th> {% endif %}
                         </tr>
                         </thead>
                         <tbody>
@@ -27,8 +30,10 @@
                                 <td>{{ log.nrReps }}</td>
                                 <td>{{ log.duration|date('i:s') }}</td>
                                 <td>
-                                    <a href="/workout/{{ workout.id }}/exercise-log/{{ log.id}}/edit-form" class="btn btn-primary btn-sm me-2">Edit</a>
-                                    <a href="/workout/{{ workout.id }}/exercise-log/{{ log.id}}/delete-form" class="btn btn-danger btn-sm">Delete</a>
+                                    {% if app.user and (is_granted('ROLE_ADMIN') or app.user == workout.user) %}
+                                        <a href="/workout/{{ workout.id }}/exercise-log/{{ log.id}}/edit-form" class="btn btn-primary btn-sm me-2">Edit</a>
+                                        <a href="/workout/{{ workout.id }}/exercise-log/{{ log.id}}/delete-form" class="btn btn-danger btn-sm">Delete</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

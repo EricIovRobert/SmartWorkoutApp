@@ -30,12 +30,6 @@ class WorkoutType extends AbstractType
                     return $tip->getNume();
                 }
             ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => function(User $user) {
-                    return $user->getNume();
-                }
-            ])
             ->add('submit', SubmitType::class)
         ;
     }

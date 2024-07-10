@@ -44,7 +44,9 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="exercisesDropdown">
                         <li><a class="dropdown-item" href="/exercises">Exercise List</a></li>
-                        <li><a class="dropdown-item" href="/exercise-form">Add Exercise</a></li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TRAINER') %}
+                            <li><a class="dropdown-item" href="/exercise-form">Add Exercise</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -53,12 +55,21 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="workoutsDropdown">
                         <li><a class="dropdown-item" href="/workouts">Workout List</a></li>
-                        <li><a class="dropdown-item" href="/workout-form">Add Workout</a></li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TRAINER') or app.user %}
+                            <li><a class="dropdown-item" href="/workout-form">Add Workout</a></li>
+                        {% endif %}
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users">Users</a>
-                </li>
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TRAINER') or app.user%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users">Users</a>
+                    </li>
+                {% endif %}
+                {% if app.user and not is_granted('ROLE_ADMIN') and not is_granted('ROLE_TRAINER') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="mailto:admin@example.com?subject=Become%20a%20Trainer%20Request&body=Hello%20Admin,%0D%0A%0D%0AI%20would%20like%20to%20become%20a%20trainer.%0D%0A%0D%0AThank%20you.">Become a Trainer</a>
+                    </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                 {% if app.user %}
