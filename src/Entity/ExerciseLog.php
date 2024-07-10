@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 
 #[ORM\Entity(repositoryClass: ExerciseLogRepository::class)]
-#[Assert\Callback(['App\Entity\ExerciseLog', 'validateDuration'])]
+#[Assert\Callback([ExerciseLog::class, 'validateDuration'])]
 class ExerciseLog
 {
     #[ORM\Id]

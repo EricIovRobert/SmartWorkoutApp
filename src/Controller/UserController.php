@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
     #[Route('/users', name: 'user_list')]
@@ -45,21 +46,27 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/register',name: 'register', methods: array('GET', 'POST'))]
-    public function register(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/register', name: 'register', methods: array('GET', 'POST'))]
+    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+            $hashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $user->getParola()
+            );
+            $user->setParola($hashedPassword);
+
             $entityManager->persist($user);
             $entityManager->flush();
+
             return $this->redirectToRoute('home');
         }
-        return $this->render('User\addUserPage.html.twig', ['form' => $form, ]);    }
-
+        return $this->render('User/addUserPage.html.twig', ['form' => $form]);
+    }
     #[Route('/user/{id}/edit-form',name: 'show_user_edit', methods: ['GET'])]
     public function showEditForm(Request $request, UserRepository $userRepository,EntityManagerInterface $entityManager, int $id): Response
     {
@@ -78,19 +85,31 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/{id}',name: 'user_edit', methods: ['PUT'])]
-    public function edit(Request $request, UserRepository $userRepository,EntityManagerInterface $entityManager, int $id): Response{
+    public function edit(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, int $id): Response
+    {
         $user = $userRepository->find($id);
-        $form = $this->createForm(UserType::class, $user, ['action' => $this->generateUrl('user_edit', ['id' => $user->getId()]),
-            'method' => 'PUT']);
+        $form = $this->createForm(UserType::class, $user, [
+            'action' => $this->generateUrl('user_edit', ['id' => $user->getId()]),
+            'method' => 'PUT'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
             $user = $form->getData();
+            if ($user->getParola()) {
+                $hashedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $user->getParola()
+                );
+                $user->setParola($hashedPassword);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
+
             return $this->render('operation_success.html.twig', ['type' => 'user']);
         }
-        return $this->render('User\edit-user.html.twig', ['form' => $form, 'user' => $user]);
+        return $this->render('User/edit-user.html.twig', ['form' => $form, 'user' => $user]);
     }
 
     #[Route('/user/{id}/delete-form', name: 'show_user_delete', methods: ['GET'])]

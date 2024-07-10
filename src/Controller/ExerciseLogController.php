@@ -34,12 +34,19 @@ class ExerciseLogController extends AbstractController
         $form = $this->createForm(ExerciseLogType::class, $exerciseLog);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
-            $exerciseLog = $form->getData();
-            $entityManager->persist($exerciseLog);
-            $entityManager->flush();
-            return $this->render('ExerciseLog/success.html.twig',  ['workout' => $workout]);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $exerciseLog = $form->getData();
+                $entityManager->persist($exerciseLog);
+                $entityManager->flush();
+
+                return $this->render('ExerciseLog/success.html.twig',  ['workout' => $workout]);
+        }
+// else {
+//                dd($form);
+//            }
+
         }
         return $this->render('ExerciseLog\addExerciseLogPage.html.twig', ['form' => $form, 'workout'=>$workout]);
 

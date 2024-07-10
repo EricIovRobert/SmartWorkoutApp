@@ -8,9 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,6 +31,9 @@ class User
     )]
     #[ORM\Column(length: 255)]
     private ?string $Nume = null;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
     #[Assert\NotBlank(message: "Email cannot be blank")]
     #[Assert\Length(
         max: 255,
@@ -174,4 +178,28 @@ class User
 
         return $this;
     }
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->mail;
+    }
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+    public function getPassword(): ?string
+    {
+        return $this->Parola;
+    }
+
 }

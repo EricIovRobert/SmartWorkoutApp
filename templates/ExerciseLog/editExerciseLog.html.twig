@@ -7,9 +7,7 @@
             <ul>
                 {% for child in form %}
                     {% if child.vars.errors is defined and child.vars.errors|length > 0 %}
-                        {% for error in child.vars.errors %}
-                            <li>{{ error.message }}</li>
-                        {% endfor %}
+                        <li>{{ child.vars.errors[0].message }}</li>
                     {% endif %}
                 {% endfor %}
             </ul>
