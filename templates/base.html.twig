@@ -65,17 +65,19 @@
                         <a class="nav-link" href="/users">Users</a>
                     </li>
                 {% endif %}
-                {% if app.user and not is_granted('ROLE_ADMIN') and not is_granted('ROLE_TRAINER') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="mailto:admin@example.com?subject=Become%20a%20Trainer%20Request&body=Hello%20Admin,%0D%0A%0D%0AI%20would%20like%20to%20become%20a%20trainer.%0D%0A%0D%0AThank%20you.">Become a Trainer</a>
-                    </li>
-                {% endif %}
+
             </ul>
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+
                 {% if app.user %}
                     <li class="nav-item">
                         <a class="nav-link" href="/user/{{ app.user.id }}">Profile</a>
                     </li>
+                    {% if app.user and not is_granted('ROLE_ADMIN') and not is_granted('ROLE_TRAINER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="mailto:admin@example.com?subject=Become%20a%20Trainer%20Request&body=Hello%20Admin,%0D%0A%0D%0AI%20would%20like%20to%20become%20a%20trainer.%0D%0A%0D%0AThank%20you.">Become a Trainer</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout_confirmation') }}">Logout</a>
                     </li>
@@ -87,6 +89,7 @@
                         <a class="nav-link" href="/register">Register</a>
                     </li>
                 {% endif %}
+
             </ul>
         </div>
     </div>
