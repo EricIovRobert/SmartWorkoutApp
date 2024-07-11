@@ -5,11 +5,17 @@
     <div class="container my-5 text-white">
         <h1 class="text-center">Exercise List</h1>
         <br>
+        <div class="row">
+            <div class="col text-right">
+                <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search by name" aria-label="Search">
+            </div>
+        </div>
+        <br>
         {% if exercises is not empty %}
-            <div class="row" align="center">
+            <div class="row" align="center" id="exerciseContainer">
                 {% for exercise in exercises %}
                     {% set videoId = exercise.linkVideo|split('watch?v=')|last %}
-                    <div class="col-md-4 my-3">
+                    <div class="col-md-4 my-3 exercise-card" data-name="{{ exercise.name|lower }}">
                         <div class="card h-100 bg-light text-dark rounded-card">
                             <div class="card-body">
                                 <h5 class="card-title">{{ exercise.name }}</h5>
@@ -21,31 +27,29 @@
                         </div>
                     </div>
                 {% endfor %}
-
-                <nav aria-label="Page navigation example" >
-                    <ul class="pagination justify-content-center" >
-                        {% if currentPage > 1 %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ currentPage - 1 }}">Previous</a>
-                            </li>
-                        {% endif %}
-
-                        {% for page in 1..totalPages %}
-                            <li class="page-item {% if page == currentPage %}active{% endif %}">
-                                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
-                            </li>
-                        {% endfor %}
-
-                        {% if currentPage < totalPages %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ currentPage + 1 }}">Next</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-
-                </nav>
-
             </div>
+            <p class="text-center" id="noResultsMessage" style="display: none;">No exercises found.</p>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if currentPage > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ currentPage - 1 }}">Previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for page in 1..totalPages %}
+                        <li class="page-item {% if page == currentPage %}active{% endif %}">
+                            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if currentPage < totalPages %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ currentPage + 1 }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
         {% else %}
             <p class="text-center">No exercises found.</p>
         {% endif %}
@@ -64,4 +68,22 @@
             transform: translateY(-5px);
         }
     </style>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase();
+            const exerciseCards = document.querySelectorAll('.exercise-card');
+            let anyVisible = false;
+            exerciseCards.forEach(function (card) {
+                const exerciseName = card.getAttribute('data-name');
+                if (exerciseName.includes(searchValue)) {
+                    card.style.display = '';
+                    anyVisible = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            document.getElementById('noResultsMessage').style.display = anyVisible ? 'none' : 'block';
+        });
+    </script>
 {% endblock %}

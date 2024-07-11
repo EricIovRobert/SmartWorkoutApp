@@ -9,8 +9,6 @@
             <a href="/exercises" class="btn btn-orange btn-lg mt-3">Get Started</a>
         </div>
 
-
-
         <div class="container mt-5">
             <h2 class="text-center">Why Choose SmartWorkout?</h2>
             <div class="row mt-4">
@@ -41,15 +39,13 @@
             </div>
         </div>
 
-
-        <div class="container mt-5">
+        <div class="container mt-5 text-center">
             <h2 class="text-center">User Reviews</h2>
             <div class="row mt-4">
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 bg-light text-dark rounded-card text-center p-3">
                         <div class="card-body">
-                            <h5 class="card-title">Ionescu Andrei
-                            </h5>
+                            <h5 class="card-title">Ionescu Andrei</h5>
                             <p class="card-text">"A very intuitive platform that allows you to maximize your exercise routine with the minimum effort"</p>
                         </div>
                     </div>
@@ -71,12 +67,43 @@
                     </div>
                 </div>
             </div>
+
+            {% if not app.user %}
+                <div class="mt-5">
+                    <p class="lead">Register to get access to the full application.</p>
+                    <a href="/register" class="btn btn-orange btn-lg mt-3">Register</a>
+                </div>
+            {% endif %}
         </div>
 
         <div class="text-center mt-5">
             <p>&copy; 2024 SmartWorkout. All rights reserved.</p>
         </div>
+
+        <!-- Chatbot UI -->
+        <div class="chatbot-container">
+            <div id="chatbot" class="chatbot card d-none">
+                <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
+                     style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <p class="mb-0 fw-bold">Live chat</p>
+                    <button id="minimize-chatbot" class="btn btn-sm btn-orange">-</button>
+                </div>
+                <div class="card-body" style="background-color: #343a40;">
+                    <div id="chatbot-messages" class="chatbot-messages">
+                        <!-- Messages will be appended here by JavaScript -->
+                    </div>
+                    <div class="form-outline mt-3">
+                        <textarea class="form-control text-dark bg-body-tertiary" id="chatbot-input" rows="2" placeholder="Type your message"></textarea>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button id="chatbot-send" class="btn btn-orange">Send</button>
+                    </div>
+                </div>
+            </div>
+            <button id="maximize-chatbot" class="btn btn-orange chatbot-circle">+</button>
+        </div>
     </div>
+
     <style>
         .btn-orange {
             background-color: orange;
@@ -92,6 +119,112 @@
         .rounded-card:hover {
             transform: translateY(-5px);
         }
-
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+        .chatbot {
+            border-radius: 15px;
+            overflow: hidden;
+            width: 300px;
+        }
+        .chatbot-circle {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .chatbot-messages {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        .form-outline {
+            width: 100%;
+        }
+        .chatbot-input {
+            width: calc(100% - 50px);
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+        .chatbot-send {
+            width: 40px;
+            background-color: orange;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatbot = document.getElementById('chatbot');
+            const chatbotMessages = document.getElementById('chatbot-messages');
+            const chatbotInput = document.getElementById('chatbot-input');
+            const chatbotSend = document.getElementById('chatbot-send');
+            const minimizeChatbot = document.getElementById('minimize-chatbot');
+            const maximizeChatbot = document.getElementById('maximize-chatbot');
+
+            maximizeChatbot.classList.remove('d-none');
+            chatbot.classList.add('d-none');
+
+            chatbotSend.addEventListener('click', sendMessage);
+            chatbotInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            minimizeChatbot.addEventListener('click', function () {
+                chatbot.classList.add('d-none');
+                maximizeChatbot.classList.remove('d-none');
+            });
+
+            maximizeChatbot.addEventListener('click', function () {
+                chatbot.classList.remove('d-none');
+                maximizeChatbot.classList.add('d-none');
+            });
+
+            function sendMessage() {
+                const message = chatbotInput.value.trim();
+                if (message) {
+                    addMessage('You', message, 'text-white rounded-3 bg-warning', 'justify-content-end mb-4 pt-1');
+                    fetch('/chatbot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message: message })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            addMessage('Chatbot', data.reply, 'rounded-3 bg-body-tertiary', 'justify-content-start');
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    chatbotInput.value = '';
+                }
+            }
+
+            function addMessage(sender, message, messageClass, alignmentClass) {
+                const messageContent = document.createElement('div');
+                messageContent.className = `d-flex flex-row ${alignmentClass}`;
+                messageContent.innerHTML = `
+                    <div>
+                        <p class="small p-2 ms-3 mb-3 ${messageClass}">${message}</p>
+                    </div>
+                `;
+                chatbotMessages.appendChild(messageContent);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+        });
+    </script>
 {% endblock %}
